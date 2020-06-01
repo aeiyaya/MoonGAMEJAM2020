@@ -23,9 +23,9 @@ public class Monster : MonoBehaviour
         audioObject = GetComponent<AudioObject>();
     }
 
-    private void OnEnable()
+    
+    public void Appear()
     {
-        Debug.Log("PLAY APPEAR SOUND");
         audioObject.PlaySoundEffect(appearSound);
     }
 
@@ -42,12 +42,14 @@ public class Monster : MonoBehaviour
             Death();
             return true;
         }
+
         audioObject.PlaySoundEffect(hurtSound);
+
+        this.gameObject.SetActive(false);
         return false;
     }
     public void Death()
     {
-
         StartCoroutine(MonsterDeath());
     }
 

@@ -10,16 +10,27 @@ public class MonsterTrigger : MonoBehaviour
 
     public Transform[] monsterSpawns;
 
+
+    public float monsterCooldown = 10f;
+    private float lastTime = 0;
     private void OnTriggerEnter(Collider other)
     {
-        SpawnMonster();
-        Debug.Log("Player Entered Trigger");
+        if (lastTime + monsterCooldown < Time.time)
+        {
+            lastTime = Time.time;
+            SpawnMonster();
+
+            Debug.Log("Player Entered Trigger");
+        }
     }
 
     public void SpawnMonster()
     {
-        if (!monster.activeInHierarchy)
-            monster.SetActive(true);
+        if (monster != null)
+        {
+            if (!monster.activeInHierarchy)
+                monster.SetActive(true);
+        }
     }
 }
 

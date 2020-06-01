@@ -16,7 +16,6 @@ public class AudioObject : MonoBehaviour
 
     public void PlaySoundEffect(AudioClip soundEffect)
     {
-        audioSource.clip = soundEffect;
-        audioSource.Play();
+        audioSource.PlayOneShot(soundEffect);
     }
 }

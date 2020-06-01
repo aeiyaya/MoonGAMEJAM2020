@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
     private GameObject heldWeapon;
 
     [Header("Sounds")]
-    AudioObject audioObject;
+    public AudioObject audioObject;
     public AudioClip hurtSound;
     public AudioClip deathSound;
     public AudioClip dieDemon;
@@ -68,13 +68,12 @@ public class Player : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
 
-        lightWeapons = new GameObject[] { Lamp, Flashlight};
+        lightWeapons = new GameObject[] { Lamp, Flashlight };
         for (int i = 0; i < lightWeapons.Length; i++)
         {
             lightWeapons[i].SetActive(false);
         }
 
-        audioObject = GetComponent<AudioObject>();
     }
 
     // Update is called once per frame
@@ -201,7 +200,7 @@ public class Player : MonoBehaviour
     public void TakeDamage(int amount)
     {
         // Damage cooldown
-        if (timeDamageTaken + damageCooldown > Time.time)
+        if (timeDamageTaken + damageCooldown < Time.time)
         {
             audioObject.PlaySoundEffect(hurtSound);
 
@@ -223,19 +222,16 @@ public class Player : MonoBehaviour
     public void GameOver()
     {
         if (CurrentHealth <= 0)
-            gameManager.GameOver();
+            Death();
     }
 
-    /////////////////////
-    //// INTERACTIVE ////
-    /////////////////////
-
-    public void EnterDoor()
+    IEnumerator Death()
     {
+        audioObject.PlaySoundEffect(deathSound);
+        yield return new WaitForSeconds(3f);
 
+        gameManager.GameOver();
     }
-
-
 
     private void OnDrawGizmos()
     {
